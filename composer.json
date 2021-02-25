@@ -49,7 +49,7 @@
         },
         "laravel": {
             "providers": [
-                "Zhaiyujin\\ScoutSearch\\EscoutServiceProvider",
+                "Zhaiyujin\\ScoutSearch\\EscoutServiceProvider"
             ]
         }
     },
