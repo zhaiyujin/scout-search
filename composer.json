@@ -1,0 +1,60 @@
+{
+    "name": "zhaiyujin/scout-search",
+    "description": "学习",
+     "keywords": ["es", "laravel", "search","scout"],
+    "type": "library",
+    "require": {
+        "php": "^7.2|^8.0",
+        "illuminate/bus": "^6.0|^7.0|^8.0",
+        "illuminate/contracts": "^6.0|^7.0|^8.0",
+        "illuminate/database": "^6.0|^7.0|^8.0",
+        "illuminate/http": "^6.0|^7.0|^8.0",
+        "illuminate/pagination": "^6.0|^7.0|^8.0",
+        "illuminate/queue": "^6.0|^7.0|^8.0",
+        "illuminate/support": "^6.0|^7.0|^8.0"
+    },
+    "require-dev": {
+     "elasticsearch/elasticsearch": "^7.10",
+    "fzaninotto/faker": "~1.9.1",
+        "mockery/mockery": "^1.0",
+        "phpunit/phpunit": "^8.0|^9.3"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "TonicGB",
+            "email": "568941179@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "config": {
+        "sort-packages": true
+    },
+    "suggest": {
+    "elasticsearch/elasticsearch": "Required to use the Elasticsearch engine (^7.10.0)."
+  },
+    "autoload-dev": {
+        "psr-4": {
+            "Zhaiyujin\\ScoutSearch\\Tests\\": "tests/"
+        }
+    },
+     "autoload": {
+        "psr-4": {
+            "Zhaiyujin\\ScoutSearch\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Zhaiyujin\\ScoutSearch\\EscoutServiceProvider",
+            ]
+        }
+    },
+
+
+       "prefer-stable": true
+
+}
