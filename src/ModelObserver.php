@@ -114,7 +114,7 @@ class ModelObserver
             return;
         }
 
-        if ($this->usesSoftDelete($model) && config('scout.soft_delete', false)) {
+        if ($this->usesSoftDelete($model) && config('escout.soft_delete', false)) {
             $this->saved($model);
         } else {
             $model->unsearchable();

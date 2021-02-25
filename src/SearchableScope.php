@@ -32,14 +32,14 @@ class SearchableScope implements Scope
     public function extend(EloquentBuilder $builder)
     {
         $builder->macro('searchable', function (EloquentBuilder $builder, $chunk = null) {
-            $builder->chunkById($chunk ?: config('scout.chunk.searchable', 500), function ($models) {
+            $builder->chunkById($chunk ?: config('escout.chunk.searchable', 500), function ($models) {
                 $models->filter->shouldBeSearchable()->searchable();
                 event(new ModelsImported($models));
             });
         });
 
         $builder->macro('unsearchable', function (EloquentBuilder $builder, $chunk = null) {
-            $builder->chunkById($chunk ?: config('scout.chunk.unsearchable', 500), function ($models) {
+            $builder->chunkById($chunk ?: config('escout.chunk.unsearchable', 500), function ($models) {
                 $models->unsearchable();
 
                 event(new ModelsFlushed($models));
@@ -47,7 +47,7 @@ class SearchableScope implements Scope
         });
 
         HasManyThrough::macro('searchable', function ($chunk = null) {
-            $this->chunkById($chunk ?: config('scout.chunk.searchable', 500), function ($models) {
+            $this->chunkById($chunk ?: config('escout.chunk.searchable', 500), function ($models) {
                 $models->filter->shouldBeSearchable()->searchable();
 
                 event(new ModelsImported($models));
@@ -55,7 +55,7 @@ class SearchableScope implements Scope
         });
 
         HasManyThrough::macro('unsearchable', function ($chunk = null) {
-            $this->chunkById($chunk ?: config('scout.chunk.searchable', 500), function ($models) {
+            $this->chunkById($chunk ?: config('escout.chunk.searchable', 500), function ($models) {
                 $models->filter->shouldBeSearchable()->searchable();
 
                 event(new ModelsImported($models));

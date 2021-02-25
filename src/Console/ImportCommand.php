@@ -4,7 +4,7 @@ namespace Zhaiyujin\ScoutSearch\Console;
 
 use \Illuminate\Console\Command;
 use Illuminate\Contracts\Events\Dispatcher;
-use Laravel\Scout\Events\ModelsImported;
+use Zhaiyujin\ScoutSearch\Events\ModelsImported;
 
 class ImportCommand extends Command
 {
@@ -36,6 +36,7 @@ class ImportCommand extends Command
         $class = $this->argument('model');
 
         $model = new $class;
+
         //注册呢一个事件ModelsImported,事件监听者是闭包
         $events->listen(ModelsImported::class, function ($event) use ($class) {
             //事件处理,通过事件获取构造传入的模型获取最后一条数据的主键
@@ -43,6 +44,7 @@ class ImportCommand extends Command
             //将信息输出到控制台
             $this->line('<comment>Imported ['.$class.'] models up to ID:</comment> '.$key);
         });
+
         //通过模型来批量提交索引Searchable的实例
         $model::makeAllSearchable($this->option('chunk'));
         //从调度程序中删除一组侦听器。

@@ -18,10 +18,10 @@ trait EsSearch
     protected static $models=[];
     /**
      * Boot the trait.
-     *
+     * trait前面加boot自动执行
      * @return void
      */
-    public static function bootSearchable()
+    public static function bootEsSearch()
     {
         //模型设置全局作用域模型能够实现SearchableScope中发放操作
         static::addGlobalScope(new SearchableScope);
@@ -61,8 +61,9 @@ trait EsSearch
         if ($models->isEmpty()) {
             return;
         }
+
         //没有开启队列，通过searchableUsing获取es引擎实例,进行数据推送
-        if (! config('scout.queue')) {
+        if (! config('escout.queue')) {
             return $models->first()->searchableUsing()->update($models);
         }
 
@@ -110,7 +111,7 @@ trait EsSearch
             'model' => $model,
             'query' => $query,
             'callback' => $callback,
-            'softDelete'=> static::usesSoftDelete() && config('scout.soft_delete', false),
+            'softDelete'=> static::usesSoftDelete() && config('escout.soft_delete', false),
         ]);
     }
 
@@ -129,7 +130,7 @@ trait EsSearch
             'model' => $search,
             'query' => $query,
             'callback' => $callback,
-            'softDelete'=>  config('scout.soft_delete', false),
+            'softDelete'=>  config('escout.soft_delete', false),
         ]);
     }
 
@@ -144,7 +145,7 @@ trait EsSearch
     {
         $self = new static;
 
-        $softDelete = static::usesSoftDelete() && config('scout.soft_delete', false);
+        $softDelete = static::usesSoftDelete() && config('escout.soft_delete', false);
 
         $self->newQuery()
             ->when(true, function ($query) use ($self) {
@@ -269,7 +270,7 @@ trait EsSearch
      */
     public function searchableAs()
     {
-        return config('scout.prefix').$this->getTable();
+        return config('escout.prefix').$this->getTable();
     }
     public function searchIndex(){
         return $this->getTable();
@@ -308,7 +309,7 @@ trait EsSearch
      */
     public function syncWithSearchUsing()
     {
-        return config('scout.queue.connection') ?: config('queue.default');
+        return config('escout.queue.connection') ?: config('queue.default');
     }
 
     /**
@@ -318,7 +319,7 @@ trait EsSearch
      */
     public function syncWithSearchUsingQueue()
     {
-        return config('scout.queue.queue');
+        return config('escout.queue.queue');
     }
 
     /**

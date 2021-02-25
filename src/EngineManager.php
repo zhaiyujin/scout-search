@@ -35,13 +35,13 @@ class EngineManager extends Manager
         UserAgent::addCustomUserAgent('Laravel Scout', '8.6.0');
 
         $config = SearchConfig::create(
-            config('scout.algolia.id'),
-            config('scout.algolia.secret')
+            config('escout.algolia.id'),
+            config('escout.algolia.secret')
         )->setDefaultHeaders(
             $this->defaultAlgoliaHeaders()
         );
 
-        return new AlgoliaEngine(Algolia::createWithConfig($config), config('scout.soft_delete'));
+        return new AlgoliaEngine(Algolia::createWithConfig($config), config('escout.soft_delete'));
     }
 
     /**
@@ -71,7 +71,7 @@ class EngineManager extends Manager
      */
     protected function defaultAlgoliaHeaders()
     {
-        if (! config('scout.identify')) {
+        if (! config('escout.identify')) {
             return [];
         }
 
@@ -107,7 +107,7 @@ class EngineManager extends Manager
      */
     public function getDefaultDriver()
     {
-        if (is_null($driver = config('scout.driver'))) {
+        if (is_null($driver = config('escout.driver'))) {
             return 'null';
         }
 
