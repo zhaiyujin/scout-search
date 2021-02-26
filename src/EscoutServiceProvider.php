@@ -30,7 +30,7 @@ class EscoutServiceProvider extends ServiceProvider
             return new Search($app);
         });
 
-        //确定laravel应用程序是否正在控制台中运行。
+        //确定laravel应用程序是否正在控制台中运行,控制台命令会执行下面的。
         if ($this->app->runningInConsole()) {
             //注册软件包的自定义Artisan命令
             $this->commands([
