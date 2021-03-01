@@ -108,7 +108,7 @@ trait EsSearch
     {
 
         return app(Builder::class, [
-            'model' => $model,
+            'model' => new static(),
             'query' => $query,
             'callback' => $callback,
             'softDelete'=> static::usesSoftDelete() && config('escout.soft_delete', false),
