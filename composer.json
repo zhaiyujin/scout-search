@@ -1,6 +1,6 @@
 {
     "name": "zhaiyujin/scout-search",
-    "description": "基于laravel-scout的扩展包",
+    "description": "基于laravel-scout,scout-es的扩展包,原包的查询功能满足条件很少，按照个人需求，做了些修改，可以使用es搜索并直接使用",
      "keywords": ["es", "laravel", "search","scout"],
     "type": "library",
     "require": {
