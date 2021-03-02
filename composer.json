@@ -1,6 +1,6 @@
 {
     "name": "zhaiyujin/scout-search",
-    "description": "学习",
+    "description": "基于laravel-scout的扩展包",
      "keywords": ["es", "laravel", "search","scout"],
     "type": "library",
     "require": {
