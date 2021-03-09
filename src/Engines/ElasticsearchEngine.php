@@ -40,7 +40,7 @@ class ElasticsearchEngine extends Engine
                 'update' => [
                     '_id' => $model->getScoutKey(),
                     '_index' => $model->searchableAs(),
-                    // '_type' => "_doc"//get_class($model),
+                     '_type' => "_doc"//get_class($model),
                 ]
             ];
             $params['body'][] = [
@@ -73,7 +73,7 @@ class ElasticsearchEngine extends Engine
                 'update' => [
                     '_id' => $model->getScoutKey(),
                     '_index' => $model->searchableAs(),
-                   // '_type' => "_doc"//get_class($model),
+                    '_type' => "_doc"//get_class($model),
                 ]
             ];
             $params['body'][] = [
@@ -81,7 +81,7 @@ class ElasticsearchEngine extends Engine
                 'doc_as_upsert' => true
             ];
         });
-
+        
         $this->elastic->bulk($params);
     }
 
