@@ -81,7 +81,7 @@ class ElasticsearchEngine extends Engine
                 'doc_as_upsert' => true
             ];
         });
-        
+
         $this->elastic->bulk($params);
     }
 
@@ -169,12 +169,23 @@ class ElasticsearchEngine extends Engine
 
 
      $bool=[
-         'should'=> [
-             ['match' => ["content.pinyin" => "*{$builder->query}*"]],
-             ['match' => ["title.pinyin" => "*{$builder->query}*"]]
-         ],
-       //  'should'=> [ 'query_string' => ['query' => "*{$builder->query}*"]],
+         "must"=>[
+             [ 'match_phrase' => [
+                 "content.pinyin" => "*{$builder->query}*"],
+               /*  'match_phrase_prefix' => [
+                     "content" => "*{$builder->query}*"]*/
+             ],
+             /*"bool"=>[
 
+                 "should"=>[
+                    [ 'match_phrase' => [
+                         "content.pinyin" => "*{$builder->query}*"]],
+                     ["match_phrase_prefix"=>[
+                        "content" => "*{$builder->query}*"]]
+                 ]
+             ]*/
+
+         ]
      ];
         $bool2=[
             'must'=> [ 'query_string' => ['query' => "*{$builder->query}*"]],
@@ -188,20 +199,18 @@ class ElasticsearchEngine extends Engine
                     "query"=> "*{$builder->query}*",
                     //"type"=>"best_fields",
                     "fields"=>[
-                        //"content",
                         "title",
-                        "title.pinyin",
-                        "content.pinyin",
+                        "title.single",
+                        "content.single",
+                        preg_match('/[a-zA-Z]/',$builder->query)? "content.pinyin":"content"
+
                     ],
                     "minimum_should_match"=> "-20%"
                     //"operator"=>"or",
                     //"minimum_should_match"=> "80%"
                 ]]
-               /* ['match' => ["content.pinyin" => "*{$builder->query}*"]],
-                ["match"=>[ 'query_string' => ['query' => "*{$builder->query}*"]]],
-                */
-                ],
-           // "must"=>[]
+                ]
+
 
         ];
 
@@ -213,22 +222,24 @@ class ElasticsearchEngine extends Engine
                 "size"=>100,
                 'query' => [
                     "bool"=>$bool3,
-                    /*'bool' => [
-                       // 'must' => [ 'query_string' => ['query' => "*{$builder->query}*"]],//[[ 'query_string' => ['query' => "*{$builder->query}*"]]],
-                        'must'=>  $must,                         // [ 'query_string' => ['query' => "*{$builder->query}*"]],
-
-                        'should'=> [ 'query_string' => ['query' => "*{$builder->query}*"]],
+                    /*'bool'=>[
+                        "must"=>[[
+                            "match"=>["title.pinyin"=> "*{$builder->query}*"],
+                             "match"=>["content.pinyin"=> "*{$builder->query}*"]
+                        ]]
                     ]*/
+
                 ],
                 "highlight"=>[
                     "boundary_chars"=>".,!? \t\n，。！？",
                     "pre_tags" => ["<font color='red'>"],
                     "post_tags" => ["</font>"],
                     "fields"=> [
-                    "title" =>[ "number_of_fragments" => 0],//new \stdClass(),
-                        "title.pinyin" =>[
-                        "number_of_fragments" => 0
-                        ],
+                   // "title" =>[ "number_of_fragments" => 0],//new \stdClass(),
+                    "content" =>[ "number_of_fragments" => 0],//new \stdClass(),
+                    "content.pinyin" =>["number_of_fragments" => 0],
+                   // "title.single" =>["number_of_fragments" => 0],
+                    //"content.single" =>["number_of_fragments" => 0],
 
                 ]]
             ],
