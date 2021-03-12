@@ -116,6 +116,8 @@ trait EsSearch
     }
 
 
+   
+
     /**
      * Perform a search against the model's indexed data.
      *
@@ -146,7 +148,7 @@ trait EsSearch
         $self = new static;
 
         $softDelete = static::usesSoftDelete() && config('escout.soft_delete', false);
-         
+
         $self->newQuery()
             ->when(true, function ($query) use ($self) {
                 $self->makeAllSearchableUsing($query);

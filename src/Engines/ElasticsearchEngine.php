@@ -168,6 +168,36 @@ class ElasticsearchEngine extends Engine
     {
 
 
+        if($builder->queryRaw) $query=$builder->queryRaw;
+        else{
+            $query=[
+                "bool"=>[
+                    'must'=>[
+                        ['multi_match'=>[
+                            "type"=> "most_fields",
+                            "query"=> "*{$builder->query}*",
+                            //"type"=>"best_fields",
+                            "fields"=>[
+                                "title",
+                                "title.single",
+                                "content.single",
+                                preg_match('/[a-zA-Z]/',$builder->query)? "content.pinyin":"content"
+
+                            ],
+                            "minimum_should_match"=> "-20%"
+                        ]]
+                    ]
+                ],
+                /*'bool'=>[
+                    "must"=>[[
+                        "match"=>["title.pinyin"=> "*{$builder->query}*"],
+                         "match"=>["content.pinyin"=> "*{$builder->query}*"]
+                    ]]
+                ]*/
+
+            ];
+        }
+
      $bool=[
          "must"=>[
              [ 'match_phrase' => [
@@ -192,27 +222,6 @@ class ElasticsearchEngine extends Engine
 
         ];
 
-        $bool3=[
-            'must'=>[
-                ['multi_match'=>[
-                    "type"=> "most_fields",
-                    "query"=> "*{$builder->query}*",
-                    //"type"=>"best_fields",
-                    "fields"=>[
-                        "title",
-                        "title.single",
-                        "content.single",
-                        preg_match('/[a-zA-Z]/',$builder->query)? "content.pinyin":"content"
-
-                    ],
-                    "minimum_should_match"=> "-20%"
-                    //"operator"=>"or",
-                    //"minimum_should_match"=> "80%"
-                ]]
-                ]
-
-
-        ];
 
         $index=$builder->model->searchIndex();
         $params = [
@@ -220,16 +229,7 @@ class ElasticsearchEngine extends Engine
             'type' => "_doc",//get_class($builder->model),
             'body' => [
                 "size"=>100,
-                'query' => [
-                    "bool"=>$bool3,
-                    /*'bool'=>[
-                        "must"=>[[
-                            "match"=>["title.pinyin"=> "*{$builder->query}*"],
-                             "match"=>["content.pinyin"=> "*{$builder->query}*"]
-                        ]]
-                    ]*/
-
-                ],
+                'query' =>$query,
                 "highlight"=>[
                     "boundary_chars"=>".,!? \t\n，。！？",
                     "pre_tags" => ["<font color='red'>"],

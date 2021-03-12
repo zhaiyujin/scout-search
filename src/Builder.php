@@ -63,6 +63,8 @@ class Builder
      */
     public $limit;
 
+
+    public $queryRaw;
     /**
      * The "order" that should be applied to the search.
      *
@@ -102,6 +104,13 @@ class Builder
 
         return $this;
     }
+
+
+    public function queryRaw($search){
+         $this->queryRaw=$search;
+         return $this;
+    }
+
 
     /**
      * Add a constraint to the search query.
@@ -243,6 +252,8 @@ class Builder
     {
         return $this->get()->first();
     }
+
+
 
     /**
      * Get the results of the search.
