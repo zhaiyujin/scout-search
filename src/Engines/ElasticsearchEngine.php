@@ -223,9 +223,8 @@ class ElasticsearchEngine extends Engine
         ];
 
 
-        $index=$builder->model->searchIndex();
         $params = [
-            'index' => $index,//$builder->model->searchableAs(),
+            'index' => $builder->model->searchableAs(),
             'type' => "_doc",//get_class($builder->model),
             'body' => [
                 "size"=>100,
