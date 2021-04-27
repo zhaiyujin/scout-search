@@ -116,7 +116,7 @@ trait EsSearch
     }
 
 
-   
+
 
     /**
      * Perform a search against the model's indexed data.
@@ -273,9 +273,6 @@ trait EsSearch
     public function searchableAs()
     {
         return config('escout.prefix').$this->getTable();
-    }
-    public function searchIndex(){
-        return $this->getTable();
     }
 
     public function filterId(){
